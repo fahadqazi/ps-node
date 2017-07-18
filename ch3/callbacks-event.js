@@ -36,4 +36,13 @@ Patterns for Events:
 1. As a return value from a function. (instance of event emitter is created and return from function)
 2. An Object extends EventEmitter to emit events. (still had other functionality)
 
+
+Building on the concept of Event Emitter is something called Streams
+
+- A stream extends EventEmitter class and provides an agreed upon interface.
+- This provides an abstraction for data-flow: 
+    * Network
+    * File I/O
+    * stdin/out/stderr
+    * ......
  */
