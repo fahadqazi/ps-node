@@ -45,4 +45,14 @@ Building on the concept of Event Emitter is something called Streams
     * File I/O
     * stdin/out/stderr
     * ......
+
+- Each Stream is either:
+    * readable stream
+    * writeable stream
+    * or both....
+
+
+Readable Stream vs Writeable Stream
+
+
  */
