@@ -4,10 +4,10 @@ var EventEmitter = require('events').EventEmitter;
 
 var getResource = function(c){
     var e = new EventEmitter();
-    process.nextTick(function(){
+    process.nextTick(function(){    //Runs on the next tick of event loop
         var count = 0;
         e.emit('start')
-        var t = setInterval(function(){
+        var t = setInterval(function(){     //Emits a 'data' event after 10ms
             e.emit('data', ++count);
             if (count === c){
                 e.emit('end', count);
