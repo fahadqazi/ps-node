@@ -29,7 +29,11 @@
  The Publisher                            The Subscriber
  emitter.emit(event, [args]) --->         emitter.on(event, listener)
  
+ - Event can be a string
+ - Event can emit zero or more args
  
-
+Patterns for Events: 
+1. As a return value from a function. (instance of event emitter is created and return from function)
+2. An Object extends EventEmitter to emit events. (still had other functionality)
 
  */
