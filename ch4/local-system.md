@@ -1,5 +1,4 @@
 > ## The Process Object
----
 - provides a way for node app to manage it's own process and other processes on the system
 - process object is an instance of the EventEmitter class
 
@@ -41,7 +40,6 @@ console.log('Node is running this process: ' + process.pid);
 ```
 
 > ## File System - FS Module
----
 - contains sync, async and stream functions
 - watch function to event to watch a file for changes and use Event Emitter to emit change event.
 
