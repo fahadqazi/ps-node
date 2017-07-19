@@ -98,3 +98,24 @@ fs.mkdir('temp', function(err){
     });
 });
 ```
+
+> ## Buffer Object 
+- In the above example we use 'data.toString()'
+- fs.readFileSync('text.txt') does not return a string object it returns a buffer 
+- This is because javascript has difficulty processing binary data.
+- Buffer class provides memory allocation to deal with this issue directly.
+- Buffers can be converted to and from, using encoding (utf8, ascii, binary ...)
+```javascript
+var b = new Buffer('Hello');
+
+console.log(b.toString());
+
+console.log(b.toString('base64'));
+
+var v = new Buffer('World').toString('base64');
+
+console.log(b.toString('utf8', 0, 2));
+```
+
+> ## OS Module
+- Provides information about the current operating system.
