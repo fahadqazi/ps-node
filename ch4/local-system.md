@@ -1,5 +1,5 @@
-## The Process Object
-___
+> ## The Process Object
+---
 - provides a way for node app to manage it's own process and other processes on the system
 - process object is an instance of the EventEmitter class
 
@@ -38,4 +38,63 @@ process.on('SIGTERM', function(){
 });
 
 console.log('Node is running this process: ' + process.pid);
+```
+
+> ## File System - FS Module
+---
+- contains sync, async and stream functions
+- watch function to event to watch a file for changes and use Event Emitter to emit change event.
+
+### Synchronous function
+- Sync functions with no callbacks.
+```javascript
+var fs = require('fs');
+
+if (fs.existsSync('temp')){
+    console.log('Directory already exists, removing...')
+    if (fs.existsSync('temp/new.txt')){
+        fs.unlinkSync('temp/new.txt');
+    }
+    fs.rmdirSync('temp');
+}
+
+fs.mkdirSync('temp');
+if(fs.existsSync('temp')){
+    process.chdir('temp')
+    fs.writeFileSync('test.txt', 'This is some test text');
+    fs.renameSync('test.txt', 'new.txt');
+    console.log('File size: ' + fs.statSync('new.txt').size + ' bytes');
+    console.log('File contents: ' + fs.readFileSync('new.txt').toString());
+}
+```
+
+### Asynchronous function
+```javascript
+var fs = require('fs');
+
+if (fs.existsSync('temp')){
+    console.log('Directory already exists, removing...')
+    if (fs.existsSync('temp/new.txt')){
+        fs.unlinkSync('temp/new.txt');
+    }
+    fs.rmdirSync('temp');
+}
+
+fs.mkdir('temp', function(err){
+    fs.exists('temp', function(exists){
+        if (exists){
+            process.chdir('temp');
+            fs.writeFile('test.txt', 'This is some testing text', function(err){
+                fs.rename('test.txt', 'new.txt', function(err){
+                    fs.stat('new.txt', function(err, stats){
+                        console.log('File has size: ' + stats.size + ' bytes');
+                        fs.readFile('new.txt', function(err, data){
+                            console.log('File contents: ' + data.toString());
+                        });
+                    });
+                });
+            });
+        }
+    });
+});
 ```
