@@ -1,0 +1,11 @@
+> ## Testing Node Applications
+
+### Assert module
+- testing for equality between expected and actual values 
+- test whether a block throw an exception or not
+- test for truthiness of a value
+- test is error was passed to callback 
+- assert.equal; shallow or ==
+- assert.strictEqual; strict equal or ===
+- assert.deepEqual; === complex data types
+
