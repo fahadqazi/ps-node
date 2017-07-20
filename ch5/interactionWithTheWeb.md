@@ -72,3 +72,8 @@ http.createServer(function(req, res){
     console.log('server is running')
 })
 ```
+
+> ## Socket.io
+- provides an abstraction to maintain an active connection between browser and server.
+- if socket.io is not supported it will fall back to a supported format.
+- provides provides an interface on both the browser and the server.
