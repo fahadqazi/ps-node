@@ -65,6 +65,7 @@ grep.stderr.on('data', function(data){
 - It is built on top of Spawn and it is design to spawn child processes which are also node applications.
 - 
 ```javascript
+//index.js
 var fork = require('child_process').fork;
 
 var child = fork(__dirname + '/honorStudents.js');
@@ -76,6 +77,7 @@ child.on('message', function(m){
 
 child.send({ cmd: 'double', number: 20 });
 ---------------------------------------------------------
+//honorStudents.js
 var evenDoubler = function(v, callback){
   if(v%2 === 0){
     callback(null, v*2);
