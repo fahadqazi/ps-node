@@ -28,3 +28,41 @@ process.on('message', function(m){
 });
 process.send({ foo: 'bar' })
 ```
+
+> ## "exec" Function
+- you can use any unix command in place of 'uptime'.
+```javascript
+var exec = require('child_process').exec;
+var child = exec('uptime', function(err, stdout, stdin){
+    if(err){console.log('Error: ' + stderr)}
+    else{console.log('Output is: ' + stdout)}
+});
+console.log('PID is: ' + child.pid);
+```
+
+> ## "spawn" Function
+- gives more control over stdin, stdout, stderr of the process while its running.
+- this is because stdin, stdout, stderr are streams and we can have access to them
+while the process is running.
+```javascript
+var spawn = require('child_process').spawn;
+var ps = spawn('ps', ['ax']);   //get list of processes
+var grep = spawn('grep', ['node']);     //look for the phrase node
+
+ps.stdout.pipe(grep.stdin);
+grep.stdout.pipe(process.stdout);
+
+ps.stderr.on('data', function(data){
+    console.log('ps stderr: ' + data);
+});
+
+grep.stderr.on('data', function(data){
+    console.log('grep stderr: ', + data);
+});
+```
+
+> ## "fork" Function
+- It is built on top of Spawn and it is design to spawn child processes which are also node applications.
+- 
+```javascript
+```
