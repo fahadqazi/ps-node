@@ -65,4 +65,82 @@ grep.stderr.on('data', function(data){
 - It is built on top of Spawn and it is design to spawn child processes which are also node applications.
 - 
 ```javascript
+var fork = require('child_process').fork;
+
+var child = fork(__dirname + '/honorStudents.js');
+
+child.on('message', function(m){
+    console.log('The answer is: ' + m.answer);
+    child.send({cmd: 'done'});
+});
+
+child.send({ cmd: 'double', number: 20 });
+---------------------------------------------------------
+var evenDoubler = function(v, callback){
+  if(v%2 === 0){
+    callback(null, v*2);
+  } else {
+    callback(new Error ("Error right here"));
+  }
+};
+
+process.on('message', function(m){
+    if(m.cmd === 'double'){
+        console.log('hs: I was asked to double ' + m.number);
+        evenDoubler(m.number, function(err, result){
+            process.send({answer: result})
+        });
+    } else if( m.cmd === 'done') {
+        process.exit();
+    }
+});
+```
+
+> ## Node Cluster
+- built on top of child_process.fork()
+- uses a "Worker" as a class as well as master functions and events.
+![Image of cluster](./cluster.png)
+
+```javascript
+var cluster = require('cluster');
+var http = require('http');
+var numWorkers = 2;
+
+if (cluster.isMaster){
+    //Fork workers
+    for(var i = 0; i<numWorkers; i++){
+        console.log('master: about to fork a worker');
+        cluster.fork();
+    }
+
+    cluster.on('fork', function(worker){
+        console.log('master: fork event (worker: ' + worker.id + ')');
+    });
+
+    cluster.on('online', function(worker){
+        console.log('master: online event (worker: ' + worker.id + ')');
+    });
+
+    cluster.on('listening', function(worker, address){
+        console.log('master: listening event (worker: ' + worker.id + ', pid' + ' '+ worker.process.id + ' ' + address.address);
+    });
+
+    cluster.on('exit', function(worker, code, signal){
+        console.log('master: exit event (worker: ' + worker.id + ')');
+    });
+}else {
+    console.log('worker: ' + cluster.worker.id + ' id ready');
+
+    var count = 0;
+
+    http.createServer(function(req, res){
+        res.writeHead(200);
+        count++;
+        console.log('working number: ' + cluster.worker.id + ' is incrementing count to ' + count++);
+        res.end('hello world from worker number: ' +  cluster.worker.id + ' pid ' + cluster.worker.process.id + ' and the count: ' + count )
+        if (count === 3){
+            cluster.worker.destroy();
+        }
+    }).listen(8080);
+}
 ```
