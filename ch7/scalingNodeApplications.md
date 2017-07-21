@@ -8,3 +8,23 @@
     * spawn(command, [args], [options])
     * exec(command, [options], callback)
     * execFile(file, [args], [options], callback)
+    * fork(modulePath, [args], [options])
+
+#### fork()'ing
+```javascript
+//parent.js
+var cp = require('child_process');
+var n = cp.fork(__dirname + '/child.js');
+
+n.on('message', function(m){
+    console.log('Parent got message: ', m)
+});
+
+n.send({ hello: 'world'});
+------------------------------------------------
+//child.js
+process.on('message', function(m){
+    console.log('child got message', m)
+});
+process.send({ foo: 'bar' })
+```
